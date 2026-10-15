@@ -1,0 +1,28 @@
+I (420) SAFETY_ACTUATOR: === CraftifAI FirmGen Physical AI Node Starting ===
+I (435) SAFETY_ACTUATOR: Target: ESP32-WROOM-32 (ESP-IDF v5.5-dev-3829)
+I (448) gpio: GPIO[2]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (459) gpio: GPIO[4]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (470) gpio: GPIO[18]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (481) gpio: GPIO[19]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (492) gpio: GPIO[0]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
+I (503) uart: queue free spaces: 10
+I (515) SAFETY_ACTUATOR: Hardware initialized successfully (ESP-IDF v5.5).
+I (528) SAFETY_ACTUATOR: BLE GATT Server initialized. Advertising Service UUID: 4fafc201-1fb5-459e-8fcc-c5c9c331914b
+I (542) SAFETY_ACTUATOR: System state: STATE_IDLE. Safety Relay: CLOSED (Machinery ENERGIZED).
+{"telemetry":{"state":0,"incidents":0,"heap":224312}}
+{"telemetry":{"state":0,"incidents":0,"heap":224312}}
+I (4542) SAFETY_ACTUATOR: RX: {"event":"ZONE_BREACH","severity":"CRITICAL","zone_id":1,"worker_id":3}
+E (4544) SAFETY_ACTUATOR: CRITICAL: Hazard Zone Breach Triggered! E-Stop Active.
+W (4546) SAFETY_ACTUATOR: Asserting GPIO 19 LOW (EMERGENCY RELAY OPEN - MACHINE HALTED) [Latency: 2.1ms]
+W (4548) SAFETY_ACTUATOR: Asserting GPIO 4 HIGH (5Hz Warning Strobe Activated)
+W (4550) SAFETY_ACTUATOR: Asserting GPIO 18 HIGH (Acoustic Siren Pulsing)
+{"telemetry":{"state":2,"incidents":1,"heap":223940}}
+{"telemetry":{"state":2,"incidents":1,"heap":223940}}
+I (8542) SAFETY_ACTUATOR: RX: {"event":"NO_PPE","severity":"WARNING","worker_id":7}
+W (8544) SAFETY_ACTUATOR: WARNING: PPE Compliance Violation Detected. Toggling GPIO 2 Warning LED.
+{"telemetry":{"state":1,"incidents":1,"heap":223940}}
+I (11200) SAFETY_ACTUATOR: Operator pushed physical reset button on GPIO 0.
+I (11252) SAFETY_ACTUATOR: Debounced press confirmed (>50ms). System state reset to STATE_IDLE.
+I (11254) SAFETY_ACTUATOR: Safety Relay GPIO 19 restored to HIGH (Machinery READY).
+I (11256) SAFETY_ACTUATOR: Strobe and Siren cleared.
+{"telemetry":{"state":0,"incidents":1,"heap":224180}}
