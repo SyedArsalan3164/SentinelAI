@@ -1,0 +1,16 @@
+{
+  "schema_version": "3.0.0",
+  "view": "hld",
+  "revision": "9efbffb2487e999b74b526696d267e12",
+  "graph_version": 3,
+  "generated_at_ms": 1792321338457,
+  "mermaid": "flowchart TD\n  entry[\"ESP-IDF entry hook<br/>main/entry.c: app_main\"]\n  app[\"Application startup<br/>firmware/app/app.c: app_start\"]\n  logger[\"Logging facade<br/>firmware/utils/logger/logger.h\"]\n  log_sink[\"ESP-IDF log output<br/>ESP_LOGI via esp_log.h\"]\n\n  entry -->|app_start call| app\n  app -->|ESP_LOGI| logger\n  logger -->|esp_log.h re-export| log_sink",
+  "title": "High-Level Design",
+  "node_notes": {
+    "logger": "This header is the application's logging facade, re-exporting ESP-IDF's `esp_log.h`. The app includes `logger.h` before using `ESP_LOGI`.",
+    "log_sink": "This is the ESP-IDF logging destination invoked by the startup `ESP_LOGI` call. The source establishes the logging API through `logger.h` and `esp_log.h`, but does not specify a physical output interface.",
+    "entry": "The ESP-IDF entry shim exposes `app_main` and delegates startup to the application. The call is in `main/entry.c` and invokes `app_start`.",
+    "app": "The application startup function emits the project's sole runtime action: an informational startup log. `firmware/app/app.c` calls `ESP_LOGI` with the message `firmware started`."
+  },
+  "authored_by_model": true
+}

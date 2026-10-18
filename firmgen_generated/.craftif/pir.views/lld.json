@@ -1,0 +1,14 @@
+{
+  "schema_version": "3.0.0",
+  "view": "lld",
+  "revision": "9efbffb2487e999b74b526696d267e12",
+  "graph_version": 3,
+  "generated_at_ms": 1792321338458,
+  "mermaid": "flowchart TD\n  entry[\"Invoke application startup<br/>main/entry.c:4\"]\n  app[\"Log firmware startup message<br/>firmware/app/app.c:7-9\"]\n\n  entry -->|app_start call| app",
+  "title": "Low-Level Design (Firmware Workflow)",
+  "node_notes": {
+    "entry": "The ESP-IDF hook `app_main` begins the startup path by calling `app_start`. This delegation is implemented in `main/entry.c:4`.",
+    "app": "The application logs `firmware started` at informational level and then returns. The call is in `firmware/app/app.c:7-9`."
+  },
+  "authored_by_model": true
+}

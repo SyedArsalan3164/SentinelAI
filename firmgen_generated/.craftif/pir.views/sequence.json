@@ -1,0 +1,10 @@
+{
+  "schema_version": "3.0.0",
+  "view": "sequence",
+  "revision": "9efbffb2487e999b74b526696d267e12",
+  "graph_version": 3,
+  "generated_at_ms": 1792321338458,
+  "mermaid": "sequenceDiagram\n  participant Boot as ESP-IDF startup\n  participant Entry as app_main\n  participant App as app_start\n  participant Log as ESP-IDF log output\n\n  Boot->>Entry: invoke app_main\n  Entry->>App: app_start\n  App->>Log: ESP_LOGI(TAG, #quot;firmware started#quot;)",
+  "title": "Sequence Diagram",
+  "authored_by_model": true
+}

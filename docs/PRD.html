@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SentinelAI FirmGen PRD</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #222; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+  h1 { color: #1e3a8a; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; }
+  h2 { color: #1e40af; margin-top: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+  h3 { color: #1d4ed8; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th, td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+  th { background-color: #f1f5f9; font-weight: 600; }
+  pre { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-family: monospace; overflow-x: auto; }
+  code { font-family: monospace; background-color: #f1f5f9; padding: 2px 4px; border-radius: 4px; }
+  .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; background: #e0e7ff; color: #3730a3; font-weight: bold; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<h1>FirmGen Product Requirement Document (PRD)</h1>
+<p><span class="badge">Project: SPAN-ESP32 (SentinelAI Safety Actuator Node)</span></p>
+<p><strong>Target Hardware:</strong> ESP32-WROOM-32 / ESP32-S3<br>
+<strong>Framework:</strong> ESP-IDF v5.5<br>
+<strong>Execution Path:</strong> FirmGen Category-wise Review & Build<br>
+<strong>Status:</strong> APPROVED & READY</p>
+
+<h2>1. Vision & Purpose</h2>
+<p>SPAN-ESP32 is an industrial edge safety node responsible for deterministic, physical actuation when hazard warnings or intrusion alerts are signaled by upstream perception nodes (PipeGen). It eliminates latency and reliability risks inherent in purely cloud-driven safety systems by providing local, hardware-level machinery cut-offs and strobe alerts.</p>
+
+<h2>2. Physical Pin Allocation</h2>
+<table>
+  <tr><th>Function</th><th>Pin</th><th>Direction</th><th>Active Level</th><th>Default State</th></tr>
+  <tr><td>Status Heartbeat LED</td><td>GPIO 2</td><td>Output</td><td>High</td><td>Low</td></tr>
+  <tr><td>Visual Alert Strobe</td><td>GPIO 4</td><td>Output</td><td>High</td><td>Low (Off)</td></tr>
+  <tr><td>Acoustic Siren / Buzzer</td><td>GPIO 18</td><td>Output</td><td>High</td><td>Low (Off)</td></tr>
+  <tr><td>Safety Relay / E-Stop</td><td>GPIO 19</td><td>Output</td><td>Low (Active Low)</td><td>High (Normal Safe)</td></tr>
+  <tr><td>Manual Reset Button</td><td>GPIO 0</td><td>Input</td><td>Low (Pulled High)</td><td>High</td></tr>
+  <tr><td>Host UART Interface</td><td>GPIO 1 (Tx) / GPIO 3 (Rx)</td><td>In/Out</td><td>3.3V TTL</td><td>115200 8-N-1</td></tr>
+</table>
+
+<h2>3. Functional Requirements (FR)</h2>
+
+<h3>[FR-01] Structured JSON Ingestion</h3>
+<p>The firmware MUST parse newline-terminated (<code>\n</code>) JSON strings from UART0 containing <code>event</code>, <code>severity</code>, and optional <code>zone_id</code> fields.</p>
+<pre>{"event": "ZONE_BREACH", "severity": "CRITICAL", "zone_id": 1, "timestamp": 1710000000}</pre>
+
+<h3>[FR-02] Critical Hazard Actuation</h3>
+<p>Upon receiving <code>event == "ZONE_BREACH"</code>:</p>
+<ul>
+  <li>GPIO 4 (Strobe) toggles at 5Hz (100ms ON / 100ms OFF).</li>
+  <li>GPIO 18 (Buzzer) sounds with a pulsed tone.</li>
+  <li>GPIO 19 (Safety Relay) drops to LOW (tripping machinery circuit).</li>
+  <li>Response latency must be under 20ms from packet arrival.</li>
+</ul>
+
+<h3>[FR-03] Warning Status Indication</h3>
+<p>Upon receiving <code>event == "NO_PPE"</code>:</p>
+<ul>
+  <li>GPIO 2 (Status LED) blinks at 1Hz (500ms ON / 500ms OFF).</li>
+  <li>GPIO 19 remains HIGH (machinery stays running).</li>
+</ul>
+
+<h3>[FR-04] Manual Operator Reset</h3>
+<p>Pressing the physical push button on GPIO 0 for at least 50ms MUST reset the alarm state back to IDLE (Relay HIGH, Strobe/Buzzer OFF).</p>
+
+<h3>[FR-05] BLE GATT Telemetry Advertising</h3>
+<p>ESP32 MUST host a BLE GATT Server advertising custom service UUID <code>4fafc201-1fb5-459e-8fcc-c5c9c331914b</code> exposing read/notify characteristics for current state and incident tally.</p>
+
+<h3>[FR-06] Heartbeat & System Health</h3>
+<p>System MUST emit periodic telemetry over UART every 2000ms in JSON format:</p>
+<pre>{"telemetry": {"state": 0, "incidents": 2, "heap": 224180}}</pre>
+
+</body>
+</html>

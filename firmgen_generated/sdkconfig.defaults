@@ -1,0 +1,5 @@
+# Auto-generated defaults for the standard project layout.
+CONFIG_IDF_TARGET="esp32"
+CONFIG_BT_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=y
+CONFIG_ESP_CONSOLE_NONE=y

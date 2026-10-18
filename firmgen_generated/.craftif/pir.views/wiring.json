@@ -1,0 +1,50 @@
+{
+  "schema_version": "3.0.0",
+  "view": "wiring",
+  "revision": "9efbffb2487e999b74b526696d267e12",
+  "graph_version": 3,
+  "generated_at_ms": 1792321338456,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_sentinelai_actuator",
+    "name": "sentinelai_actuator topology",
+    "description": "No GPIO or task gaps could be resolved from the provided entry-point snippet.",
+    "board_id": "esp32-wroom-32",
+    "nodes": [
+      {
+        "id": "boot",
+        "node_type": "system_init",
+        "label": "Boot / app_main",
+        "description": "Bootstraps firmware startup and initializes core subsystems.",
+        "ports": [
+          {
+            "id": "boot_boot_out_0",
+            "name": "boot_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": true,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "target": "esp32"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      }
+    ],
+    "connections": [],
+    "layout": {
+      "orientation": "",
+      "node_width": 0.0,
+      "layer_gap": 0.0,
+      "node_gap": 0.0
+    }
+  },
+  "title": "Wiring Topology",
+  "authored_by_model": false
+}
